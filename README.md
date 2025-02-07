@@ -45,7 +45,7 @@ services:
     container_name: db-mysql
     environment:
       MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'mysql!'
+      MYSQL_USER: 'mysql'
       MYSQL_PASSWORD: 'mysql!'
       MYSQL_ROOT_PASSWORD: 'r@@tp@ssw0rd'
       TZ: Asia/Bangkok
