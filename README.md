@@ -20,7 +20,7 @@
 รันคำสั่งต่อไปนี้เพื่อสร้างโฟลเดอร์สำหรับเก็บข้อมูล:
 
 ```sh
-mkdir -p ~/mysql-docker/my-db
+mkdir -p ~/mysql/my-db
 ```
 
 ---
@@ -30,7 +30,7 @@ mkdir -p ~/mysql-docker/my-db
 สร้างไฟล์ `docker-compose.yml` ภายในไดเรกทอรีที่สร้างขึ้น:
 
 ```sh
-touch ~/mysql-docker/docker-compose.yml
+touch ~/mysql/docker-compose.yml
 ```
 
 เปิดไฟล์ `docker-compose.yml` และเพิ่มเนื้อหาดังนี้:
@@ -45,9 +45,9 @@ services:
     container_name: db-mysql
     environment:
       MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'adcmdev'
-      MYSQL_PASSWORD: 'ADCMDEV@p@ssw0rd!'
-      MYSQL_ROOT_PASSWORD: 'r@@tp@ssw0rd!'
+      MYSQL_USER: 'mysql!'
+      MYSQL_PASSWORD: 'mysql!'
+      MYSQL_ROOT_PASSWORD: 'r@@tp@ssw0rd'
       TZ: Asia/Bangkok
     ports:
       - '3306:3306'
@@ -62,7 +62,7 @@ services:
 ไปที่ไดเรกทอรีที่สร้างไว้แล้วรันคำสั่งนี้:
 
 ```sh
-cd ~/mysql-docker
+cd ~/mysql
 docker-compose up -d
 ```
 
@@ -79,10 +79,10 @@ docker ps
 สามารถเชื่อมต่อไปยัง MySQL ผ่าน Command Line ได้โดยใช้คำสั่ง:
 
 ```sh
-docker exec -it db-mysql mysql -u adcmdev -p
+docker exec -it db-mysql mysql -u mysql -p
 ```
 
-ใส่รหัสผ่าน: `ADCMDEV@p@ssw0rd!`
+ใส่รหัสผ่าน: `mysql!`
 
 ---
 
@@ -98,22 +98,22 @@ docker-compose down
 
 ### 6️⃣ เปลี่ยน Authentication Method
 
-เพื่อเปลี่ยน Authentication Method ของผู้ใช้ `root` และ `adcmdev` เป็น `mysql_native_password` ให้รันคำสั่ง SQL ต่อไปนี้:
+เพื่อเปลี่ยน Authentication Method ของผู้ใช้ `root` และ `mysql` เป็น `mysql_native_password` ให้รันคำสั่ง SQL ต่อไปนี้:
 
 ```sh
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'r@@tp@ssw0rd!';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'r@@tp@ssw0rd';
 FLUSH PRIVILEGES;
 ```
 
 ```sh
-ALTER USER 'adcmdev'@'%' IDENTIFIED WITH mysql_native_password BY 'ADCMDEV@p@ssw0rd!';
+ALTER USER 'mysql'@'%' IDENTIFIED WITH mysql_native_password BY 'mysql!';
 FLUSH PRIVILEGES;
 ```
 
 สามารถรันคำสั่งเหล่านี้ผ่าน MySQL Client หรือใช้คำสั่งต่อไปนี้ผ่าน Docker:
 
 ```sh
-docker exec -it db-mysql mysql -u root -p -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'r@@tp@ssw0rd!'; ALTER USER 'adcmdev'@'%' IDENTIFIED WITH mysql_native_password BY 'ADCMDEV@p@ssw0rd!'; FLUSH PRIVILEGES;"
+docker exec -it db-mysql mysql -u root -p -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'r@@tp@ssw0rd'; ALTER USER 'mysql'@'%' IDENTIFIED WITH mysql_native_password BY 'mysql!'; FLUSH PRIVILEGES;"
 ```
 
 จากนั้น Restart MySQL Container:
